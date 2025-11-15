@@ -48,3 +48,4 @@ class IPAnalysisResult:
     geolocation_data: Dict[str, GeoLocation]  # IP -> geolocation
     total_logs_analyzed: int
     date_range_days: int = 0
+    days_back: int = 30  # Search window in days

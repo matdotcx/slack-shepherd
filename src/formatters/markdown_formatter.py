@@ -33,7 +33,8 @@ class MarkdownFormatter:
         return f"""# IP Comparison Analysis Report
 
 **Analysis Date:** {datetime.now().strftime("%B %d, %Y at %H:%M UTC")}
-**Analysis Period:** {result.date_range_days} days
+**Search Window:** Last {result.days_back} days
+**Activity Span:** {result.date_range_days} days (actual data range)
 **Total Records Analyzed:** {result.total_logs_analyzed:,}"""
 
     def _format_summary(self, result: IPAnalysisResult) -> str:

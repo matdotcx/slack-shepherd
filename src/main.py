@@ -79,7 +79,7 @@ class InvestigationOrchestrator:
 
         # Step 4: Perform analysis
         print("Analyzing IP addresses...")
-        result = self.analyzer.analyze(user1, user2, filtered_logs, geo_data)
+        result = self.analyzer.analyze(user1, user2, filtered_logs, geo_data, self.config.days_back)
         print(f"  User 1 unique IPs: {len(result.user1_ips)}")
         print(f"  User 2 unique IPs: {len(result.user2_ips)}")
         print(f"  Shared IPs: {len(result.shared_ips)}")

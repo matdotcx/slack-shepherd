@@ -80,7 +80,8 @@ class IPAnalyzer:
         user1: User,
         user2: User,
         all_logs: List[AccessLog],
-        geo_data: Dict[str, GeoLocation]
+        geo_data: Dict[str, GeoLocation],
+        days_back: int = 30
     ) -> IPAnalysisResult:
         """
         Perform complete IP analysis for two users.
@@ -126,5 +127,6 @@ class IPAnalyzer:
             shared_locations=shared_locations,
             geolocation_data=geo_data,
             total_logs_analyzed=len(all_logs),
-            date_range_days=date_range_days
+            date_range_days=date_range_days,
+            days_back=days_back
         )
