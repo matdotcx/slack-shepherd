@@ -101,12 +101,13 @@ class SlackClient:
             for login in logins:
                 log = AccessLog.from_api_response(login)
 
-                # Track oldest timestamp in this page
-                if oldest_in_page is None or log.date_last < oldest_in_page:
-                    oldest_in_page = log.date_last
+                # Track oldest timestamp in this page (use date_first for pagination control)
+                if oldest_in_page is None or log.date_first < oldest_in_page:
+                    oldest_in_page = log.date_first
 
-                # Only add logs within the date range
-                if log.date_last >= cutoff_timestamp:
+                # Include logs if EITHER first or last access is within range
+                # This captures ongoing sessions that started before the window
+                if log.date_last >= cutoff_timestamp or log.date_first >= cutoff_timestamp:
                     all_logs.append(log)
                     logs_added += 1
 

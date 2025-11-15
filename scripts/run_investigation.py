@@ -184,7 +184,7 @@ def main():
         os.environ['USER_ID_1'] = user_id_1
         os.environ['USER_ID_2'] = user_id_2
         os.environ['MAX_PAGES'] = str(max_pages)
-        os.environ['DAYS_BACK'] = '14'  # Limit to 14 days for faster GitHub Actions runs
+        os.environ['DAYS_BACK'] = '30'  # Analyze last 30 days to capture more activity
 
         # Run investigation
         print("\nRunning investigation...")
