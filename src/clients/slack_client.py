@@ -57,20 +57,24 @@ class SlackClient:
             is_bot=False
         )
 
-    def get_access_logs(self, max_pages: int = 30) -> Optional[List[AccessLog]]:
+    def get_access_logs(self, max_pages: int = 30, days_back: int = 30) -> Optional[List[AccessLog]]:
         """
         Fetch access logs with pagination.
 
         Args:
             max_pages: Maximum number of pages to fetch (each page = 1000 records)
+            days_back: Only include logs from the last N days (default: 30)
 
         Returns:
             List of AccessLog objects or None if error on first page
         """
+        import time
+
         all_logs = []
         page = 1
+        cutoff_timestamp = int(time.time()) - (days_back * 86400)  # 86400 seconds per day
 
-        print(f"  Fetching access logs (up to {max_pages} pages)...")
+        print(f"  Fetching access logs (up to {max_pages} pages, last {days_back} days)...")
 
         while page <= max_pages:
             params = {
@@ -91,11 +95,27 @@ class SlackClient:
                 print(f"  No more data on page {page}")
                 break
 
-            # Convert to AccessLog objects
+            # Convert to AccessLog objects and filter by date
+            logs_added = 0
+            oldest_in_page = None
             for login in logins:
-                all_logs.append(AccessLog.from_api_response(login))
+                log = AccessLog.from_api_response(login)
 
-            print(f"  Page {page}/{total_pages}: {len(logins)} entries (total: {len(all_logs)})")
+                # Track oldest timestamp in this page
+                if oldest_in_page is None or log.date_last < oldest_in_page:
+                    oldest_in_page = log.date_last
+
+                # Only add logs within the date range
+                if log.date_last >= cutoff_timestamp:
+                    all_logs.append(log)
+                    logs_added += 1
+
+            print(f"  Page {page}/{total_pages}: {logs_added}/{len(logins)} entries within date range (total: {len(all_logs)})")
+
+            # Stop if the oldest log in this page is before our cutoff
+            if oldest_in_page and oldest_in_page < cutoff_timestamp:
+                print(f"  Reached date cutoff (oldest entry in page: {oldest_in_page}, cutoff: {cutoff_timestamp})")
+                break
 
             # Check if we've reached the last page
             if total_pages <= page:

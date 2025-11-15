@@ -52,7 +52,7 @@ class InvestigationOrchestrator:
 
         # Step 2: Fetch access logs
         print("Fetching access logs...")
-        all_logs = self.slack_client.get_access_logs(self.config.max_pages)
+        all_logs = self.slack_client.get_access_logs(self.config.max_pages, self.config.days_back)
 
         if not all_logs:
             print("Error: Could not fetch access logs")

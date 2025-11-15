@@ -11,6 +11,7 @@ class Config:
     user_id_1: str
     user_id_2: str
     max_pages: int = 30
+    days_back: int = 30  # Only analyze logs from last N days
 
     @classmethod
     def from_env(cls) -> 'Config':
@@ -19,6 +20,7 @@ class Config:
         user_id_1 = os.getenv('USER_ID_1')
         user_id_2 = os.getenv('USER_ID_2')
         max_pages = int(os.getenv('MAX_PAGES', '30'))
+        days_back = int(os.getenv('DAYS_BACK', '30'))
 
         if not slack_token:
             raise ValueError("SLACK_USER_TOKEN environment variable is required")
@@ -31,5 +33,6 @@ class Config:
             slack_token=slack_token,
             user_id_1=user_id_1,
             user_id_2=user_id_2,
-            max_pages=max_pages
+            max_pages=max_pages,
+            days_back=days_back
         )
