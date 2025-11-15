@@ -1,0 +1,88 @@
+name: IP Investigation Request
+description: Compare IP addresses between two Slack users
+title: "IP Analysis: [User 1] vs [User 2]"
+labels: ["ip-investigation", "pending"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## IP Address Comparison Analysis
+
+        This tool will help you analyze and compare IP addresses between two Slack users.
+
+        **What this does:**
+        - Fetches historical access logs (typically 30-90 days)
+        - Identifies all IP addresses used by each user
+        - Finds shared IP addresses and locations
+        - Generates a comprehensive report with geolocation data
+
+        **Processing time:** Usually 2-5 minutes
+
+        ---
+
+  - type: input
+    id: user1_id
+    attributes:
+      label: "User 1 ID"
+      description: "The Slack User ID for the first user (starts with 'U', e.g., U09H7SDJCB1)"
+      placeholder: "U09H7SDJCB1"
+    validations:
+      required: true
+
+  - type: input
+    id: user2_id
+    attributes:
+      label: "User 2 ID"
+      description: "The Slack User ID for the second user (starts with 'U', e.g., U09N8R0AB0W)"
+      placeholder: "U09N8R0AB0W"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: max_pages
+    attributes:
+      label: "Data Depth"
+      description: "How much historical data to fetch? More pages = more history but slower processing"
+      options:
+        - "Quick (10 pages)"
+        - "Standard (30 pages)"
+        - "Deep (50 pages)"
+      default: 1
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: "Purpose of Analysis (Optional)"
+      description: "Brief context about why you're running this comparison"
+      placeholder: "e.g., Investigating potential account sharing, security audit"
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        ### How to Find User IDs
+
+        **From Slack Desktop/Web:**
+        1. Right-click on the user's name or avatar
+        2. Select "View profile"
+        3. Click the three dots (...)
+        4. Select "Copy member ID"
+
+        **From a user's message:**
+        1. Click on their avatar in any message
+        2. Click "View full profile"
+        3. Look at the URL: the part after `/team/` is the User ID
+
+        ---
+
+        ### What Happens Next
+
+        1. Your request enters the queue
+        2. Processing begins (you'll see a comment)
+        3. Report posted as a comment
+        4. Issue auto-labeled as "completed"
