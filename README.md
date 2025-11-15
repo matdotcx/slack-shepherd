@@ -178,21 +178,6 @@ You can also run the tool locally for testing:
 - Check that GitHub Actions are enabled
 - Verify the `SLACK_USER_TOKEN` secret is configured
 
-## Migration from Original Script
-
-The original `check_user_ips.py` script is preserved for reference. The new modular architecture provides:
-
-- Better separation of concerns
-- Easier testing and maintenance
-- GitHub Actions integration
-- More flexible configuration
-
-To migrate, simply use the GitHub Issues workflow instead of running the script locally.
-
-## License
-
-Internal use only. Do not distribute.
-
 ## Support
 
 For issues or questions:
