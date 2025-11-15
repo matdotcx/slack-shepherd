@@ -1,7 +1,7 @@
 name: IP Investigation Request
 description: Compare IP addresses between two Slack users
 title: "IP Analysis: [User 1] vs [User 2]"
-labels: ["ip-investigation", "pending"]
+labels: ["pending"]
 body:
   - type: markdown
     attributes:
@@ -82,7 +82,8 @@ body:
 
         ### What Happens Next
 
-        1. Your request enters the queue
-        2. Processing begins (you'll see a comment)
-        3. Report posted as a comment
-        4. Issue auto-labeled as "completed"
+        1. **Add the `ip-investigation` label** to this issue to start processing
+        2. Processing begins (you'll see a comment within seconds)
+        3. Investigation runs (2-5 minutes)
+        4. Report posted as a comment
+        5. Issue automatically closed

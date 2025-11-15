@@ -32,8 +32,9 @@ def parse_issue_body(body: str) -> dict:
         Dictionary with 'user_id_1', 'user_id_2', 'max_pages'
     """
     # Try parsing the issue template format first
-    user1_match = re.search(r'User 1 ID\s*.*?\n\s*([A-Z0-9]+)', body, re.DOTALL)
-    user2_match = re.search(r'User 2 ID\s*.*?\n\s*([A-Z0-9]+)', body, re.DOTALL)
+    # The template creates lines like "### User 1 ID\n\nU1CJTLF8X"
+    user1_match = re.search(r'###?\s*User 1 ID\s*\n+\s*([A-Z0-9]+)', body, re.MULTILINE)
+    user2_match = re.search(r'###?\s*User 2 ID\s*\n+\s*([A-Z0-9]+)', body, re.MULTILINE)
 
     if user1_match and user2_match:
         user_id_1 = user1_match.group(1).strip()
