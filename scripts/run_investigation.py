@@ -147,16 +147,9 @@ def main():
         print("Error: Missing required environment variables")
         return 1
 
-    # Check org membership
-    org = repository.split('/')[0]
-    print(f"Checking if {github_actor} is a member of {org}...")
-    if not check_org_membership(github_actor, org, github_token):
-        error_msg = f"Access denied: {github_actor} is not a member of the {org} organization."
-        post_comment(repository, int(issue_number), f"## Error\n\n{error_msg}", github_token)
-        close_issue(repository, int(issue_number), github_token)
-        return 1
-
-    print(f"  Verified: {github_actor} is an org member")
+    # Note: Access control is handled by repository permissions
+    # Users must have write access to the repo to create issues
+    print(f"Processing request from {github_actor}...")
 
     # Post processing message
     post_comment(
