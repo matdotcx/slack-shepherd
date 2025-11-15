@@ -10,7 +10,7 @@
 
 2. **Configure GitHub**
    - Make repository private
-   - Add repository secret `SLACK_BOT_TOKEN` in Settings → Secrets
+   - Add repository secret `SLACK_USER_TOKEN` in Settings → Secrets
    - Enable GitHub Actions
 
 3. **Test**

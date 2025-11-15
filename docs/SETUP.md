@@ -37,7 +37,7 @@ Before you begin, ensure you have:
 2. Click **Install to Workspace**
 3. Review permissions and approve
 4. **Copy the User OAuth Token** (starts with `xoxp-`)
-   - This is your `SLACK_BOT_TOKEN` (repository secret name)
+   - This is your `SLACK_USER_TOKEN` (repository secret name)
    - Store it securely - you'll need it for GitHub Secrets
 
 **Important Security Notes:**
@@ -70,7 +70,7 @@ Before you begin, ensure you have:
 1. Navigate to **Settings → Secrets and variables → Actions**
 2. Click **New repository secret**
 3. Add repository secret:
-   - Name: `SLACK_BOT_TOKEN`
+   - Name: `SLACK_USER_TOKEN`
    - Value: The xoxp- token from Step 1.3
 4. Click **Add secret**
 
@@ -207,7 +207,7 @@ For private repositories:
 
 1. **"missing_scope" Error**
    - Solution: Re-add `admin` scope to Slack app
-   - Verify `SLACK_BOT_TOKEN` secret has the correct token
+   - Verify `SLACK_USER_TOKEN` secret has the correct token
 
 2. **"paid_only" Error**
    - Solution: Verify Slack plan is Business+ or higher

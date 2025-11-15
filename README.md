@@ -37,7 +37,7 @@ This tool helps investigate potential account sharing, security incidents, or co
 
 2. **Configure GitHub Secrets:**
    - Go to Settings → Secrets and variables → Actions
-   - Add repository secret: `SLACK_BOT_TOKEN`
+   - Add repository secret: `SLACK_USER_TOKEN`
      - Value: Your Slack admin token (xoxp-...)
      - Required scopes: `admin`, `users:read`
 
