@@ -40,13 +40,14 @@ def parse_issue_body(body: str) -> dict:
         user_id_2 = user2_match.group(1).strip()
     else:
         # Fallback: Try parsing comma-separated user IDs
-        user_ids_match = re.search(r'User IDs to Investigate\s*.*?\n\s*([A-Z0-9,\s]+)', body, re.DOTALL)
+        user_ids_match = re.search(r'User IDs to Investigate\s*\n+\s*([^\n]+)', body, re.MULTILINE)
         if not user_ids_match:
             raise ValueError("Could not parse user IDs from issue body")
 
-        user_ids = [uid.strip() for uid in user_ids_match.group(1).split(',')]
+        # Split by comma and filter out empty strings
+        user_ids = [uid.strip() for uid in user_ids_match.group(1).split(',') if uid.strip()]
         if len(user_ids) < 2:
-            raise ValueError("At least two user IDs are required")
+            raise ValueError(f"At least two user IDs are required, found: {user_ids}")
 
         user_id_1 = user_ids[0]
         user_id_2 = user_ids[1]
