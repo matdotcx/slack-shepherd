@@ -1,6 +1,6 @@
 # slack-shepherd
 
-*A professional Slack workspace security tool for monitoring user access patterns and detecting shared accounts. Named after the biblical shepherd who watches over and protects their flock - this tool watches over your users to ensure account security and proper access.*
+*A professional Slack workspace security tool for monitoring user access patterns and detecting shared accounts. Named after the shepherd who watches over and protects their flock - this tool watches over your users to ensure account security and proper access.*
 
 Analyze and compare IP addresses between Slack users to identify shared access patterns.
 
