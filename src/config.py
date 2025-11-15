@@ -13,6 +13,8 @@ class Config:
     max_pages: int = 30
     days_back: int = 30  # Only analyze logs from last N days
     slack_channel: str = ""  # Optional: Post results to this Slack channel
+    issue_url: str = ""  # Optional: GitHub issue URL
+    issue_creator: str = ""  # Optional: GitHub issue creator username
 
     @classmethod
     def from_env(cls) -> 'Config':
@@ -23,6 +25,8 @@ class Config:
         max_pages = int(os.getenv('MAX_PAGES', '30'))
         days_back = int(os.getenv('DAYS_BACK', '30'))
         slack_channel = os.getenv('SLACK_CHANNEL', '')
+        issue_url = os.getenv('ISSUE_URL', '')
+        issue_creator = os.getenv('ISSUE_CREATOR', '')
 
         if not slack_token:
             raise ValueError("SLACK_USER_TOKEN environment variable is required")
@@ -37,5 +41,7 @@ class Config:
             user_id_2=user_id_2,
             max_pages=max_pages,
             days_back=days_back,
-            slack_channel=slack_channel
+            slack_channel=slack_channel,
+            issue_url=issue_url,
+            issue_creator=issue_creator
         )

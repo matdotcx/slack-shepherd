@@ -24,7 +24,7 @@ class InvestigationOrchestrator:
         self.geo_client = GeolocationClient()
         self.analyzer = IPAnalyzer()
         self.formatter = MarkdownFormatter()
-        self.slack_formatter = SlackFormatter()
+        self.slack_formatter = SlackFormatter(config.issue_url, config.issue_creator)
 
     def run(self) -> Optional[str]:
         """

@@ -191,6 +191,16 @@ def main():
         if slack_channel:
             os.environ['SLACK_CHANNEL'] = slack_channel
 
+        # Set GitHub issue info for Slack reporting
+        github_repo = os.getenv('GITHUB_REPOSITORY', '')
+        github_issue_number = os.getenv('ISSUE_NUMBER', '')
+        github_actor = os.getenv('GITHUB_ACTOR', '')
+
+        if github_repo and github_issue_number:
+            os.environ['ISSUE_URL'] = f"https://github.com/{github_repo}/issues/{github_issue_number}"
+        if github_actor:
+            os.environ['ISSUE_CREATOR'] = github_actor
+
         # Run investigation
         print("\nRunning investigation...")
         config = Config.from_env()
