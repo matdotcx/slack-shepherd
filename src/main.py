@@ -10,6 +10,7 @@ from .clients.slack_client import SlackClient
 from .clients.geolocation_client import GeolocationClient
 from .analyzers.ip_analyzer import IPAnalyzer
 from .formatters.markdown_formatter import MarkdownFormatter
+from .formatters.slack_formatter import SlackFormatter
 from .models.ip_analysis import IPAnalysisResult
 
 
@@ -23,6 +24,7 @@ class InvestigationOrchestrator:
         self.geo_client = GeolocationClient()
         self.analyzer = IPAnalyzer()
         self.formatter = MarkdownFormatter()
+        self.slack_formatter = SlackFormatter()
 
     def run(self) -> Optional[str]:
         """
@@ -94,7 +96,9 @@ class InvestigationOrchestrator:
         # Step 6: Post to Slack if channel configured
         if self.config.slack_channel:
             print(f"Posting report to Slack channel {self.config.slack_channel}...")
-            success = self.slack_client.post_message(self.config.slack_channel, report)
+            # Use Slack-specific formatter for better formatting
+            slack_report = self.slack_formatter.format(result)
+            success = self.slack_client.post_message(self.config.slack_channel, slack_report)
             if success:
                 print("  Successfully posted to Slack")
             else:
