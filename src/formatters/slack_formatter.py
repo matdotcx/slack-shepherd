@@ -51,7 +51,11 @@ class SlackFormatter:
         if result.shared_ips:
             return f"""*🚨 SHARED IP ADDRESSES DETECTED*
 These users have accessed Slack from *{len(result.shared_ips)} common IP address(es)*.
-This could indicate shared network access, same physical location, or potential account sharing."""
+This could indicate:
+• Shared network access (same office/building)
+• Same physical location
+• Duplicate/shadow accounts (one person with multiple accounts)
+• Potential account sharing"""
         else:
             return f"""*✅ NO SHARED IP ADDRESSES*
 These users have not accessed Slack from any common IP addresses during the analyzed period."""
