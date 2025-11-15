@@ -186,6 +186,11 @@ def main():
         os.environ['MAX_PAGES'] = str(max_pages)
         os.environ['DAYS_BACK'] = '90'  # Analyze last 90 days to capture more activity
 
+        # Set Slack channel if provided (from repo secret)
+        slack_channel = os.getenv('SLACK_CHANNEL', '')
+        if slack_channel:
+            os.environ['SLACK_CHANNEL'] = slack_channel
+
         # Run investigation
         print("\nRunning investigation...")
         config = Config.from_env()

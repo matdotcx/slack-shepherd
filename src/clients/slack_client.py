@@ -153,3 +153,43 @@ class SlackClient:
             return data['messages'].get('matches', [])
 
         return None
+
+    def post_message(self, channel: str, text: str) -> bool:
+        """
+        Post a message to a Slack channel.
+
+        Args:
+            channel: Channel ID (e.g., C09SP0TT9GS)
+            text: Message text (supports markdown)
+
+        Returns:
+            True if successful, False otherwise
+        """
+        url = f"{self.base_url}/chat.postMessage"
+        headers = {
+            "Authorization": f"Bearer {self.token}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "channel": channel,
+            "text": text,
+            "mrkdwn": True
+        }
+
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=30)
+            data = response.json()
+
+            if not data.get('ok'):
+                error = data.get('error', 'Unknown error')
+                print(f"  Error posting to Slack: {error}")
+                if error == 'missing_scope':
+                    print(f"  Required scope: chat:write")
+                return False
+
+            print(f"  Message posted to channel {channel}")
+            return True
+
+        except Exception as e:
+            print(f"  Exception posting to Slack: {e}")
+            return False

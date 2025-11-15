@@ -91,6 +91,16 @@ class InvestigationOrchestrator:
         print("  Report generated successfully")
         print()
 
+        # Step 6: Post to Slack if channel configured
+        if self.config.slack_channel:
+            print(f"Posting report to Slack channel {self.config.slack_channel}...")
+            success = self.slack_client.post_message(self.config.slack_channel, report)
+            if success:
+                print("  Successfully posted to Slack")
+            else:
+                print("  Failed to post to Slack (check token has chat:write scope)")
+            print()
+
         return report
 
 
