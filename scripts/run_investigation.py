@@ -31,15 +31,25 @@ def parse_issue_body(body: str) -> dict:
     Returns:
         Dictionary with 'user_id_1', 'user_id_2', 'max_pages'
     """
-    # Parse User 1 ID
+    # Try parsing the issue template format first
     user1_match = re.search(r'User 1 ID\s*.*?\n\s*([A-Z0-9]+)', body, re.DOTALL)
     user2_match = re.search(r'User 2 ID\s*.*?\n\s*([A-Z0-9]+)', body, re.DOTALL)
 
-    if not user1_match or not user2_match:
-        raise ValueError("Could not parse user IDs from issue body")
+    if user1_match and user2_match:
+        user_id_1 = user1_match.group(1).strip()
+        user_id_2 = user2_match.group(1).strip()
+    else:
+        # Fallback: Try parsing comma-separated user IDs
+        user_ids_match = re.search(r'User IDs to Investigate\s*.*?\n\s*([A-Z0-9,\s]+)', body, re.DOTALL)
+        if not user_ids_match:
+            raise ValueError("Could not parse user IDs from issue body")
 
-    user_id_1 = user1_match.group(1).strip()
-    user_id_2 = user2_match.group(1).strip()
+        user_ids = [uid.strip() for uid in user_ids_match.group(1).split(',')]
+        if len(user_ids) < 2:
+            raise ValueError("At least two user IDs are required")
+
+        user_id_1 = user_ids[0]
+        user_id_2 = user_ids[1]
 
     # Parse max pages from Data Depth selection
     max_pages = 30  # default
@@ -57,8 +67,8 @@ def parse_issue_body(body: str) -> dict:
 
 def validate_user_id(user_id: str) -> bool:
     """Validate Slack user ID format."""
-    # Slack user IDs: U followed by 10 alphanumeric characters
-    pattern = re.compile(r'^U[A-Z0-9]{10}$')
+    # Slack user IDs: U followed by 8-11 alphanumeric characters
+    pattern = re.compile(r'^U[A-Z0-9]{8,11}$')
     return bool(pattern.match(user_id))
 
 
