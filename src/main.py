@@ -59,18 +59,27 @@ class InvestigationOrchestrator:
             return None
 
         print(f"  Total logs fetched: {len(all_logs)}")
+
+        # Filter logs to only the two users we care about
+        user1_logs = [log for log in all_logs if log.user_id == user1.id]
+        user2_logs = [log for log in all_logs if log.user_id == user2.id]
+        filtered_logs = user1_logs + user2_logs
+
+        print(f"  User 1 logs: {len(user1_logs)}")
+        print(f"  User 2 logs: {len(user2_logs)}")
         print()
 
         # Step 3: Fetch geolocation data
         print("Fetching geolocation data...")
-        # Get all unique IPs
-        all_ips = set(log.ip for log in all_logs)
+        # Get unique IPs for ONLY the two users we're investigating
+        all_ips = set(log.ip for log in filtered_logs)
+        print(f"  Unique IPs to analyze: {len(all_ips)}")
         geo_data = self.geo_client.lookup_batch(all_ips)
         print()
 
         # Step 4: Perform analysis
         print("Analyzing IP addresses...")
-        result = self.analyzer.analyze(user1, user2, all_logs, geo_data)
+        result = self.analyzer.analyze(user1, user2, filtered_logs, geo_data)
         print(f"  User 1 unique IPs: {len(result.user1_ips)}")
         print(f"  User 2 unique IPs: {len(result.user2_ips)}")
         print(f"  Shared IPs: {len(result.shared_ips)}")
