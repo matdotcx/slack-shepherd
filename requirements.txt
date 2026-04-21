@@ -1,5 +1,5 @@
 requests==2.32.4
-python-dotenv==1.0.0
+python-dotenv==1.2.2
 
 # Note: python-dotenv is kept for backward compatibility with check_user_ips.py
 # The new modular architecture uses environment variables directly
